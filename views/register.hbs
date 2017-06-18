@@ -1,22 +1,28 @@
 {{!default}}
 
+<script>
+  function submitAccount() {
+    $("#register").get(0).submit()
+  }
+</script>
+
 <div class="col-md-12">
-  <form action="/join" method="post">
+  <form id="register" action="/register" method="post">
     <label for="username">Username</label>
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="Username" id="username">
+      <input type="text" name="username" class="form-control" placeholder="Username" id="username">
       </input>
     </div>
     <br />
     <label for="email">Email</label>
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="Email" id="email">
+      <input type="text" name="email" class="form-control" placeholder="Email" id="email">
       </input>
     </div>
     <br />
     <label for="password">Password</label>
     <div class="input-group">
-      <input type="password" class="form-control" placeholder="Password" id=password>
+      <input type="password" name="password" class="form-control" placeholder="Password" id=password>
       </input>
     </div>
     <br />
@@ -27,5 +33,5 @@
     </div>
   </form>
   <br />
-  <button type="button" class="btn btn-success">Register</button>
+  <button type="button" class="btn btn-success" onclick="submitAccount()">Register</button>
 </div>

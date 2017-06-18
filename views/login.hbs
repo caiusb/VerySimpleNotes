@@ -1,1 +1,24 @@
 {{!default}}
+
+<script>
+function submit() {
+  $('#login').get(0).submit()
+}
+</script>
+
+<form id="login" action="/login" method="post">
+  <label for="username">Username</label>
+  <div class="input-group">
+    <input type="text" name="username" class="form-control" placeholder="Username" id="username">
+    </input>
+  </div>
+  <br />
+  <label for="username">Username</label>
+  <div class="input-group">
+    <input type="password" name="password" class="form-control" placeholder="Password" id="password">
+    </input>
+  </div>
+  <br />
+</form>
+<br />
+<button type="button" class="btn btn-success" onclick="submit()">Log In</button>
