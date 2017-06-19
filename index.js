@@ -1,3 +1,4 @@
+
 const express = require('express');
 const handlebars = require('handlebars');
 const expressHbs = require('express-handlebars');
@@ -25,31 +26,74 @@ app.use(function (req, res, next) {
   next();
 })
 
-app.use("/account", function(req, res, next) {
+function isAuthenticated(req, res, next) {
   if (req.isAuthenticated())
-    next()
+    next();
   else
-    res.redirect("/login")
-})
+    res.redirect("/login");
+}
+
+app.use("/account", isAuthenticated)
+app.use("/notes", isAuthenticated)
 
 app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'default.hbs'}));
 app.set('views', __dirname + '/views'); // general config
 app.set('view engine', 'hbs');
 
 var Account = require('./models/account')
+var Note = require('./models/note')
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
-mongoose.connect('mongodb://localhost/passport_local_mongoose_express4');
+mongoose.connect('mongodb://localhost/test');
 
 app.get('/', function (req, res, next) {
-  res.render('home', {'title': 'Basic ToDo', 'user': req.user});
+  if (req.isAuthenticated())
+    res.redirect('/notes')
+  else
+    res.render('home', {'title': 'Basic Notes'});
 })
 
+app.get('/notes', function(req, res, next) {
+  Note.find({owner: req.user.id}).exec(function(err, notes) {
+    res.render('notes', {notes: notes});
+  });
+});
+
+app.post('/notes', function(req, res, next) {
+  var note = new Note({title: req.body.title, content: req.body.content, owner: req.user.id});
+  note.save(function(err, note) {
+      res.redirect('/notes')
+    });
+});
+
+app.get('/notes/:id', function(req, res, next) {
+  Note.findOne({_id: req.params.id}, function(err, note) {
+    if (err) {
+      return res.status(404);
+    }
+    res.render('edit_note', {note: note});
+  })
+});
+
+app.post('/notes/:id', function(req, res, next) {
+  Note.findOneAndUpdate({_id: req.params.id}, req.body, function(err, note) {
+    if (err) {
+      return res.status(404);
+    }
+    res.redirect('/notes');
+  })
+});
+
+
+app.get('/new', function(req, res, next) {
+  res.render('edit_note')
+});
+
 app.get('/about', function(req, res, next) {
-  res.render('about', {'title': 'About', 'user': req.user});
-})
+  res.render('about', {'title': 'About'});
+});
 
 app.get('/account', function(req, res, next) {
   if (req.isAuthenticated)
@@ -70,7 +114,7 @@ app.get('/account/:id', function(req, res, next) {
 
 app.get('/login', function(req, res, next) {
   res.render('login', {'title': 'Log In'})
-})
+});
 
 app.post('/login',
   passport.authenticate('local', { successRedirect: '/',
@@ -91,9 +135,9 @@ app.post('/register', function(req, res, next) {
 
     passport.authenticate('local')(req, res, function() {
       res.redirect('/');
-    })
-  })
-})
+    });
+  });
+});
 
 app.get('/logout', function(req, res, next) {
   req.logout();
@@ -102,4 +146,4 @@ app.get('/logout', function(req, res, next) {
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
-})
+});
