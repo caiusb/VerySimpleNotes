@@ -2,36 +2,67 @@
 
 <script>
   function submitAccount() {
-    $("#register").get(0).submit()
+    var valid = true;
+    $("#username_alert").remove();
+    $("#email_alert").remove();
+    $("#pass1_alert").remove();
+    $("#pass2_alert").remove();
+    if ($("#username").get(0).value === "") {
+      $("#username").after('<div class="alert alert-danger" id="username_alert"></div>');
+      $("#username_alert").text("Username cannot be empty");
+      value = false;
+    }
+    if ($("#email").get(0).value === "") {
+      $("#email").after('<div class="alert alert-danger" id="email_alert"></div>');
+      $("#email_alert").text("Email cannot be empty");
+      value = false;
+    }
+    if ($("#password").get(0).value === "") {
+      $("#password").after('<div class="alert alert-danger" id="pass1_alert"></div>');
+      $("#pass1_alert").text("Password cannot be empty");
+      valid = false;
+    }
+    if ($("#password").get(0).value !== $("#retype_password").get(0).value) {
+      $("#retype_password").after('<div class="alert alert-danger" id="pass2_alert"></div>');
+      $("#pass2_alert").text("Passwords do not match");
+      valid = false;
+    }
+    if (valid)
+      $("#register").get(0).submit()
   }
 </script>
 
-<div class="col-md-12">
-  <form id="register" action="/register" method="post">
-    <label for="username">Username</label>
-    <div class="input-group">
-      <input type="text" name="username" class="form-control" placeholder="Username" id="username">
-      </input>
-    </div>
+<row>
+<div class="col-md-2"></div>
+  <div class="col-md-8" id="main">
+    <div id="alert"></div>
+    <form id="register" action="/register" method="post">
+      <label for="username">Username</label>
+      <div class="form-group" id="user_group">
+        <input type="text" name="username" class="form-control" placeholder="Username" id="username">
+        </input>
+      </div>
+      <br />
+      <label for="email">Email</label>
+      <div class="form-group" id="email_group">
+        <input type="text" name="email" class="form-control" placeholder="Email" id="email">
+        </input>
+      </div>
+      <br />
+      <label for="password">Password</label>
+      <div class="form-group" id="pass1_group">
+        <input type="password" name="password" class="form-control" placeholder="Password" id=password>
+        </input>
+      </div>
+      <br />
+      <label for="retype_password">Retype your password</label>
+      <div class="form-group" id="pass2_group">
+        <input type="password" class="form-control" placeholder="Password" id="retype_password">
+        </input>
+      </div>
+    </form>
     <br />
-    <label for="email">Email</label>
-    <div class="input-group">
-      <input type="text" name="email" class="form-control" placeholder="Email" id="email">
-      </input>
-    </div>
-    <br />
-    <label for="password">Password</label>
-    <div class="input-group">
-      <input type="password" name="password" class="form-control" placeholder="Password" id=password>
-      </input>
-    </div>
-    <br />
-    <label for="retype_password">Retype your password</label>
-    <div class="input-group">
-      <input type="password" class="form-control" placeholder="Password" id="retype_password">
-      </input>
-    </div>
-  </form>
-  <br />
-  <button type="button" class="btn btn-success" onclick="submitAccount()">Register</button>
-</div>
+    <button type="button" class="btn btn-success" onclick="submitAccount()">Register</button>
+  </div>
+  <div class="col-md-2"></div>
+</row>
