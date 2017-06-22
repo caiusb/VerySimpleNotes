@@ -8,13 +8,16 @@ const LocalStrategy = require('passport-local').Strategy;
 const app = express();
 
 //app.use(require('serve-static')(__dirname + '/../../public'));
-app.use(require('cookie-parser')());
+//app.use(require('cookie-parser')());
 app.use(bodyParser.json());
 app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(require('express-session')({
-  secret: 'keyboard cat',
+const session = require('express-session');
+const connectMongo = require("connect-mongo")(session);
+app.use(session({
+  secret: 'deep purple',
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: new connectMongo({ mongooseConnection: mongoose.connection })
 }));
 app.use(passport.initialize());
 app.use(passport.session());
