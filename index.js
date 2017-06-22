@@ -1,4 +1,3 @@
-
 const express = require('express');
 const handlebars = require('handlebars');
 const expressHbs = require('express-handlebars');
@@ -46,7 +45,8 @@ passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
-mongoose.connect('mongodb://localhost/test');
+var mongoHost = process.env.IP || localhost;
+mongoose.connect('mongodb://' + mongoHost + '/test');
 
 app.get('/', function (req, res, next) {
   if (req.isAuthenticated())
@@ -144,6 +144,7 @@ app.get('/logout', function(req, res, next) {
   res.redirect('/');
 });
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+var port = (process.env.PORT || 3000);
+app.listen(port, function () {
+  console.log('Example app listening on port ' + port + '!');
 });
