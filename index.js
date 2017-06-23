@@ -48,8 +48,9 @@ passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
-var mongoHost = process.env.IP || localhost;
-mongoose.connect('mongodb://' + mongoHost + '/test');
+var mongoHost = (process.env.IP || '0.0.0.0')
+var mongoURI = process.env.MONGODB_URI || ('mongodb://' + mongoHost + '/test');
+mongoose.connect(mongoURI);
 
 app.get('/', function (req, res, next) {
   if (req.isAuthenticated())
