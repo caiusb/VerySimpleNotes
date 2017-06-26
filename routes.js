@@ -86,8 +86,10 @@ module.exports = function(passport) {
   
   router.post('/register', function(req, res, next) {
     Account.register(new Account({username: req.body.username, email: req.body.email}), req.body.password, function(err, account) {
-      if (err) 
-        return res.render('register', {account: account});
+      if (err) {
+        console.log(err.toString())
+        return res.render('register', {account: account, error: err});
+      }
   
       passport.authenticate('local')(req, res, function() {
         res.redirect('/');
