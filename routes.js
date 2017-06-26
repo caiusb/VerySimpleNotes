@@ -58,11 +58,16 @@ module.exports = function(passport) {
       res.redirect('/login');
   });
   
-  router.get('/account/:id', function(req, res, next) {
+  router.get('/account/:id', function(req, res) {
     Account.findOne({username: req.params.id}, function(err, user) {
-      if (err)
-        return res.status(404);
-      res.render('account', user);
+        if (err)
+            return res.status(404);
+        if (req.user.username == user.username)
+            res.render('account', user);
+        else {
+            user['email'] = "<hidden>"
+            res.render('account', user);
+        }
     });
   });
   
