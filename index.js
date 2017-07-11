@@ -7,7 +7,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const app = express();
 
-//app.use(require('serve-static')(__dirname + '/../../public'));
+app.use(require('serve-static')('public'));
 //app.use(require('cookie-parser')());
 app.use(bodyParser.json());
 app.use(require('body-parser').urlencoded({ extended: true }));
