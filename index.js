@@ -26,7 +26,7 @@ app.use(function (req, res, next) {
   if (req.isAuthenticated())
     res.locals.username = req.user.username;
   next();
-})
+});
 
 function isAuthenticated(req, res, next) {
   if (req.isAuthenticated())
@@ -35,8 +35,8 @@ function isAuthenticated(req, res, next) {
     res.redirect("/login");
 }
 
-app.use("/account", isAuthenticated)
-app.use("/notes", isAuthenticated)
+app.use("/account", isAuthenticated);
+app.use("/notes", isAuthenticated);
 
 app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'default.hbs'}));
 app.set('views', __dirname + '/views'); // general config
