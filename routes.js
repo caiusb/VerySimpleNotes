@@ -62,7 +62,7 @@ module.exports = function(passport) {
     Account.findOne({username: req.params.id}, function(err, user) {
         if (err)
             return res.status(404);
-        if (req.user.username == user.username)
+        if (req.user.username === user.username)
             res.render('account', user);
         else {
             user['email'] = "<hidden>"
