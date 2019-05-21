@@ -42,6 +42,10 @@ module.exports = function (passport) {
     });
   });
 
+  router.delete("/notes/:id", function(req, res, next) {
+    Note.remove({_id: req.params.id}, function(err) { res.status(500); });
+    res.redirect(303, "/notes");
+  });
 
   router.get('/new', function(req, res, next) {
     res.render('edit_note');
