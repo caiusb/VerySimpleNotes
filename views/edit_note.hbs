@@ -1,12 +1,15 @@
 {{!default}}
 
-<form id="new_note" action="/notes/{{note.id}}" method="post">
-  <input type="text" class="form-control" placeholder="Title" name="title" value="{{note.title}}" />
-  <textarea type="text" class="form-control" placeholder="Content"
-    name="content" rows=10 style="resize: vertical">{{note.content}}
-  </textarea>
-</form>
-<button type="button" class="btn btn-success" onclick="save()">Save</button>
-<button type="button" class="btn btn-danger" onclick="discard()">Discard</button>
 
-<script src="../js/note.js"></script>
+<div class="container-fluid">
+  <form id="new_note" action="/notes/{{note.id}}" method="post">
+    <input type="text" class="form-control" placeholder="Title" name="title" value="{{note.title}}" />
+    <textarea type="text" class="form-control" placeholder="Content"
+      name="content" rows=10 style="resize: vertical">{{note.content}}
+    </textarea>
+  </form>
+  <button type="button" class="btn btn-success" onclick="save()">Save</button>
+  <button type="button" class="btn btn-danger" onclick="discard()">Discard</button>
+
+  <script src="../js/edit_note.js" ></script>
+</div>

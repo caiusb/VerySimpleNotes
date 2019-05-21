@@ -1,3 +1,13 @@
-a.note {
-  color: blue;
+.note-delete {
+  position: relative;
+  bottom: 30px;
+  right: 10px;
+  float: right;
+  background-color: inherit;
+  border: none;
+  display: none;
+}
+
+.note:hover .note-delete {
+  display: block;
 }

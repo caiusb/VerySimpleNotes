@@ -38,7 +38,17 @@ function isAuthenticated(req, res, next) {
 app.use("/account", isAuthenticated);
 app.use("/notes", isAuthenticated);
 
-app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'default.hbs'}));
+var hbs = expressHbs({extname:'hbs',
+                      defaultLayout:'default.hbs',
+                      helpers: {
+                        section: function(name, options){
+                          if(!this._sections) this._sections = {};
+                          this._sections[name] = options.fn(this);
+                          return null;
+                        }
+                      }
+                    });
+app.engine('hbs', hbs);
 app.set('views', __dirname + '/views'); // general config
 app.set('view engine', 'hbs');
 
